@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <title>360 Video</title>
+
+  <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+ 
+  <script src="/src/components/play-on-mobile.js"></script>
+  <script src="/src/components/hide-once-playing.js"></script>
+</head>
+<body>
+  <a-scene id="video-scene"> 
+
+    <a-entity video-controls="src: #video"></a-entity>
+      
+    <!-- Change the color later. -->
+    <a-text value="Click the window if it doesn't start" color="#f00"></a-text>
+    <a-videosphere 
+      rotation="0 180 0"
+      src="#video"
+      id="video-sphere"
+      play-on-mobile
+    ></a-videosphere>
+
+    <a-assets>
+      <video 
+        id="video"
+        style="display:none"
+        autoplay
+        loop 
+        playsinline 
+        webkit-playsinline 
+        
+        crossorigin="anonymous" 
+        preload="true"
+      >
+        <!-- I'm using a CDN(Google Cloud Platform) to host the file, because I was having CORS problems hosting it locally. This also allows me to ignore the file in GIT, since Github seems to have a filesize limit. -->
+        <source type="video/mp4" src="http://vr.cudd.io/vip_vr_test/res/360Demo.mp4">
+
+      </video>
+    </a-assets>
+    
+    <a-text 
+      id="msg" 
+      position="-0.514 0.831 -2.930"
+      align="center"
+      width="3"
+      wrapCount="100"
+      color="red"
+      value="If the video isn't playing, click the window."
+      hide-once-playing="#video-sphere"
+    ></a-text>
+    <a-camera id="camera">
+      <a-cursor color="f00"></a-cursor>
+    </a-camera>
+  </a-scene>
+</body>
+</html>

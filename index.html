@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Office VR Tour</title>
+
+  <!-- Load external libraries -->
+  <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+
+  <script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
+
+  <!-- load my components -->
+  
+
+  <!-- 
+    I created this scene management system before I realized links to other pages were a thing in A-Frame.
+    I decided to keep it, since it's actually a bit faster to load every scene before it's visited.
+
+    For the video, however, I decided to just use a link. Loading an entire 360 video would significantly slow down the loading for the rest of the app, and create a worse user experience.
+  -->
+
+  <!-- A scene hold the 'sky'/room image and the links to other rooms. -->
+  <script src="src/components/scene.js"></script>
+
+  <!-- A scene-link creates a link to another room/scene. -->
+  <script src="src/components/scene-link.js"></script>
+
+  <!-- The scene manager handles the movement from one scene to the next, and ensures only one scene is visible at any given time. -->
+  <script src="src/components/scene-manager.js"></script>
+</head>
+<body>
+  <a-scene scene-manager id="root-scene">
+    <!-- create each scene as a separate entity -->
+
+    <!-- lobby scene -->
+    <a-entity scene="src: #lobby; active: true" id="lobby-scene">
+      <a-sky src="#lobby"></a-sky>
+
+      <a-link
+        href="video.html"
+        title="Play Video"
+        position="1.398 1.359 5.772"
+      ></a-link>
+
+      <!-- link to conference room -->
+      <a-text 
+        scene-link="goto: #conference-room"
+        geometry="primitive: plane;"
+        value="Conference Room"
+        align="center"
+        position="-6.690 1.359 1.332"
+        look-at="#camera"
+      ></a-text>
+
+      <!-- link to sales office -->
+      <a-text
+        scene-link="goto: #sales-office"
+        geometry="primitive: plane;"
+        value="Sales Office"
+        align="center"
+        position="-4.132 1.359 8.345"
+        look-at="#camera"
+      ></a-text>
+
+      <!-- link to kitchen -->
+      <a-text
+        scene-link="goto: #kitchen"
+        geometry="primitive: plane;"
+        value="Kitchen"
+        align="center"
+        position="3.986 1.359 2.689"
+        look-at="#camera"
+      ></a-text>
+      
+      <!-- link to edit suite -->
+      <a-text
+        scene-link="goto: #edit-suite"
+        geometry="primitive: plane;"
+        value="Editing Suite"
+        align="center"
+        position="3.986 2.5 -3.200"
+
+        look-at="#camera"
+      ></a-text>
+
+      
+      <!-- link to studio -->
+      <a-text
+        scene-link="goto: #studio"
+        geometry="primitive: plane;"
+        value="Studio"
+        align="center"
+        position="3.986 1 -3.200"
+        look-at="#camera"
+      ></a-text>
+    </a-entity>
+    <!-- end lobby scene -->
+
+    <!-- conference room scene -->
+    <a-entity scene="src: #conference-room; active: false" id="conference-room-scene">
+      <a-sky src="#conference-room"></a-sky>
+
+      <!-- link to lobby -->
+      <a-text 
+        scene-link="goto: #lobby"
+        geometry="primitive: plane;"
+        value="Lobby"
+        align="center"
+        position="2.075 1.359 2.623"
+        look-at="#camera"
+      >
+      </a-text>
+    </a-entity>
+    <!-- end conference room scene -->
+
+    <!-- edit suite scene -->
+    <a-entity scene="src: #edit-suite; active: false" id=edit-suite-scene">
+      <a-sky src="#edit-suite"></a-sky>
+
+      <!-- link to lobby -->
+      <a-text 
+        scene-link="goto: #lobby"
+        geometry="primitive: plane;"
+        value="Lobby"
+        align="center"
+        position="3.753 1.359 -4.386"
+        look-at="#camera"
+      >
+      </a-text>
+    </a-entity>
+    <!-- end edit suite scene -->
+
+    <!-- kitchen scene -->
+    <a-entity scene="src: #kitchen; active: false" id="kitchen-scene">
+      <a-sky src="#kitchen"></a-sky>
+
+      <!-- link to lobby -->
+      <a-text 
+        scene-link="goto: #lobby"
+        geometry="primitive: plane;"
+        value="Lobby"
+        align="center"
+        position="-5.273 1.359 -2.300"
+        look-at="#camera"
+      >
+      </a-text>
+    </a-entity>
+    <!-- end kitchen scene -->
+
+    <!-- sales office scene -->
+    <a-entity scene="src: #sales-office; active: false" id="sales-office-scene">
+      <a-sky src="#sales-office"></a-sky>
+
+      <!-- link to lobby -->
+      <a-text 
+        scene-link="goto: #lobby"
+        geometry="primitive: plane;"
+        value="Lobby"
+        align="center"
+        position="1.250 1.359 -7.267"
+        look-at="#camera"
+      >
+      </a-text>
+    </a-entity>
+    <!-- end sales office scene -->
+
+    <!-- studio scene -->
+    <a-entity scene="src: #studio; active: false" id="studio-scene">
+      <a-sky src="#studio"></a-sky>
+    
+      <!-- link to lobby -->
+      <a-text 
+        scene-link="goto: #lobby"
+        geometry="primitive: plane;"
+        value="Lobby"
+        align="center"
+        position="7.092 1.359 1.978"
+        look-at="#camera"
+      >
+      </a-text>
+    </a-entity>
+
+    <!-- end studio scene -->
+    
+    <!-- Add a camera with basic cursor -->
+    <a-camera id="camera">
+      <a-cursor></a-cursor>
+    </a-camera>
+
+
+    <a-assets>
+      <!-- 360 images for each room -->
+      <img src="res/Lobby.jpg" id="lobby" preload>
+      <img src="res/ConferenceRoom.jpg" id="conference-room" preload>
+      <img src="res/EditSuite.jpg" id="edit-suite" preload>
+      <img src="res/Kitchen.jpg" id="kitchen" preload>
+      <img src="res/SalesOffice.jpg" id="sales-office" preload>
+      <img src="res/Studio.jpg" id="studio" preload>
+    </a-assets>
+  </a-scene>
+</body>
+</html>
