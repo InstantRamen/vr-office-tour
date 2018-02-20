@@ -15,7 +15,7 @@ AFRAME.registerComponent('scene-manager', {
     let { data, el, scenes } = this;
     console.log('Scenes: ', scenes);
 
-    el.addEventListener('change-scene', { detail } => {
+    el.addEventListener('change-scene', ({ detail }) => {
       for (let i = 0; i < scenes.length; i++) {
         let scene = scenes[i];
 
